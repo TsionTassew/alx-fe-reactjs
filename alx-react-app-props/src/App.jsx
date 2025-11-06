@@ -1,5 +1,5 @@
 import UserContext from "./UserContext";
-import ProfilePage from "./ProfilePage";
+import ProfilePage from "./UserProfile";
 // or "UserProfile" if that is what your assignment expects!
 
 function App() {
