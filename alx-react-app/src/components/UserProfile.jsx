@@ -1,4 +1,6 @@
 // src/components/UserProfile.jsx
+import React from "react";
+
 function UserProfile(props) {
   return (
     <div>
