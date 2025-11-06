@@ -10,6 +10,7 @@ function MainContent() {
       }}
     >
       <p>Welcome to my website! Here I share my favorite cities around the world.</p>
+    <p>"I love to visit New York, Paris, and Tokyo."</p>
     </main>
   );
 }
