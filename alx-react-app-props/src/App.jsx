@@ -1,6 +1,5 @@
-import UserContext from "./UserContext";
-import ProfilePage from "./UserProfile";
-// or "UserProfile" if that is what your assignment expects!
+import { UserContext } from "./UserContext";
+import ProfilePage from "./components/ProfilePage";
 
 function App() {
   const userData = { name: "Jane Doe", email: "jane.doe@example.com" };
