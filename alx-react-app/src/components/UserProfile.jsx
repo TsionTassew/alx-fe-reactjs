@@ -1,4 +1,5 @@
-const UserProfile = (props) => {
+// src/components/UserProfile.jsx
+function UserProfile(props) {
   return (
     <div>
       <h2>{props.name}</h2>
@@ -6,6 +7,6 @@ const UserProfile = (props) => {
       <p>Bio: {props.bio}</p>
     </div>
   );
-};
+}
 
 export default UserProfile;
