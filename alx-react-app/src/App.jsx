@@ -1,13 +1,17 @@
-import Header from './Header';
-import MainContent from './MainContent';
-import Footer from './Footer';
+// src/App.jsx
+import React from "react";
+import UserProfile from "./components/UserProfile";
+import WelcomeMessage from "./components/WelcomeMessage";
 
 function App() {
   return (
     <div>
-      <Header />
-      <MainContent />
-      <Footer />
+      <h1>User Profile Card</h1>
+      <UserProfile 
+        name="Alice" 
+        age="25" 
+        bio="Loves hiking and photography" 
+      />
     </div>
   );
 }
