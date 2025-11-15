@@ -1,4 +1,4 @@
-import { useRecipeStore } from './recipeStore';
+import { useRecipeStore } from '../recipeStore';
 
 
 const RecipeList = () => {
@@ -16,4 +16,6 @@ return (
 </div>
 );
 };
+
+
 export default RecipeList;
