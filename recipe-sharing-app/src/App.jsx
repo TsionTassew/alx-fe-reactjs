@@ -1,43 +1,38 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import AddRecipeForm from './components/AddRecipeForm';
-import { useRecipeStore } from './recipeStore';
-import RecipeDetails from './components/RecipeDetails'; // make sure you have this component
+// src/components/SearchBar.jsx
+import React, { useState } from 'react';
+import { useRecipeStore } from '../recipeStore';
 
-function App() {
-  const recipes = useRecipeStore((state) => state.recipes);
+const SearchBar = () => {
+  const [input, setInput] = useState('');
+  const filterRecipes = useRecipeStore(state => state.filterRecipes);
+  const setSearchTerm = useRecipeStore(state => state.setSearchTerm);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();       // prevent page reload
+    setSearchTerm(input);     // update the searchTerm in store
+    filterRecipes(input);     // filter recipes based on input
+  };
 
   return (
-    <Router>
-      <div>
-        <h1>Recipe Sharing App</h1>
-        <nav>
-          <Link to="/">Home</Link>
-        </nav>
-
-        <Routes>
-          {/* Home Page */}
-          <Route
-            path="/"
-            element={
-              <div>
-                <AddRecipeForm />
-                {recipes.map((recipe) => (
-                  <div key={recipe.id}>
-                    <h3>{recipe.title}</h3>
-                    <Link to={`/recipe/${recipe.id}`}>View Details</Link>
-                  </div>
-                ))}
-              </div>
-            }
-          />
-
-          {/* Recipe Details Page */}
-          <Route path="/recipe/:id" element={<RecipeDetails />} />
-        </Routes>
-      </div>
-    </Router>
+    <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+      <input
+        type="text"
+        placeholder="Search recipes..."
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        style={{ padding: '8px', width: '70%', marginRight: '10px' }}
+      />
+      <button type="submit" style={{ padding: '8px 16px' }}>Search</button>
+    </form>
   );
-}
+};
+<SearchBar />   // just include it above the recipe list
+{filteredRecipes.map(recipe => (
+  <div key={recipe.id}>
+    <h3>{recipe.title}</h3>
+    <Link to={`/recipe/${recipe.id}`}>View Details</Link>
+  </div>
+))}
 
-export default App;
+
+export default SearchBar;
