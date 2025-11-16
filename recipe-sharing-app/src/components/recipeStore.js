@@ -1,65 +1,39 @@
-import create from "zustand";
-
 export const useRecipeStore = create((set) => ({
-  // ========================
-  // RECIPE STATE
-  // ========================
+  // --- Recipes ---
   recipes: [],
-  addRecipe: (newRecipe) =>
-    set((state) => ({
-      recipes: [...state.recipes, newRecipe],
-    })),
+  addRecipe: (newRecipe) => set((state) => ({ recipes: [...state.recipes, newRecipe] })),
+  updateRecipe: (updated) => set((state) => ({
+    recipes: state.recipes.map(r => r.id === updated.id ? updated : r)
+  })),
+  deleteRecipe: (id) => set((state) => ({
+    recipes: state.recipes.filter(r => r.id !== id)
+  })),
 
-  updateRecipe: (updated) =>
-    set((state) => ({
-      recipes: state.recipes.map((recipe) =>
-        recipe.id === updated.id ? updated : recipe
-      ),
-    })),
+  // <-- INSERT setRecipes HERE -->
+  setRecipes: (recipes) => set({ recipes }),
 
-  deleteRecipe: (id) =>
-    set((state) => ({
-      recipes: state.recipes.filter((recipe) => recipe.id !== id),
-    })),
-
-  // ========================
-  // TASK 2 — SEARCH & FILTER
-  // ========================
+  // --- Task 2: Search/Filter ---
   searchTerm: "",
   setSearchTerm: (term) => set({ searchTerm: term }),
-
   filteredRecipes: [],
-  filterRecipes: () =>
-    set((state) => ({
-      filteredRecipes: state.recipes.filter((recipe) =>
-        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-      ),
-    })),
+  filterRecipes: () => set((state) => ({
+    filteredRecipes: state.recipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+    )
+  })),
 
-  // ========================
-  // TASK 3 — FAVORITES
-  // ========================
+  // --- Task 3: Favorites ---
   favorites: [],
-  addFavorite: (recipeId) =>
-    set((state) => ({
-      favorites: [...state.favorites, recipeId],
-    })),
+  addFavorite: (recipeId) => set((state) => ({ favorites: [...state.favorites, recipeId] })),
+  removeFavorite: (recipeId) => set((state) => ({
+    favorites: state.favorites.filter(id => id !== recipeId)
+  })),
 
-  removeFavorite: (recipeId) =>
-    set((state) => ({
-      favorites: state.favorites.filter((id) => id !== recipeId),
-    })),
-
-  // ========================
-  // TASK 3 — RECOMMENDATIONS
-  // ========================
+  // --- Task 3: Recommendations ---
   recommendations: [],
-  generateRecommendations: () =>
-    set((state) => {
-      const recommended = state.recipes.filter(
-        (recipe) =>
-          !state.favorites.includes(recipe.id) && Math.random() > 0.5
-      );
-      return { recommendations: recommended };
-    }),
+  generateRecommendations: () => set((state) => ({
+    recommendations: state.recipes.filter(
+      recipe => !state.favorites.includes(recipe.id) && Math.random() > 0.5
+    )
+  })),
 }));
