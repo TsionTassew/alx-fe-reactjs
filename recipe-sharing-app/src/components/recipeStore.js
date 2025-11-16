@@ -1,10 +1,44 @@
-
 import create from "zustand";
 
 export const useRecipeStore = create((set) => ({
+  // ========================
+  // RECIPE STATE
+  // ========================
   recipes: [],
+  addRecipe: (newRecipe) =>
+    set((state) => ({
+      recipes: [...state.recipes, newRecipe],
+    })),
 
-  // --- FAVORITES ---
+  updateRecipe: (updated) =>
+    set((state) => ({
+      recipes: state.recipes.map((recipe) =>
+        recipe.id === updated.id ? updated : recipe
+      ),
+    })),
+
+  deleteRecipe: (id) =>
+    set((state) => ({
+      recipes: state.recipes.filter((recipe) => recipe.id !== id),
+    })),
+
+  // ========================
+  // TASK 2 — SEARCH & FILTER
+  // ========================
+  searchTerm: "",
+  setSearchTerm: (term) => set({ searchTerm: term }),
+
+  filteredRecipes: [],
+  filterRecipes: () =>
+    set((state) => ({
+      filteredRecipes: state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      ),
+    })),
+
+  // ========================
+  // TASK 3 — FAVORITES
+  // ========================
   favorites: [],
   addFavorite: (recipeId) =>
     set((state) => ({
@@ -16,7 +50,9 @@ export const useRecipeStore = create((set) => ({
       favorites: state.favorites.filter((id) => id !== recipeId),
     })),
 
-  // --- RECOMMENDATIONS ---
+  // ========================
+  // TASK 3 — RECOMMENDATIONS
+  // ========================
   recommendations: [],
   generateRecommendations: () =>
     set((state) => {
@@ -26,10 +62,4 @@ export const useRecipeStore = create((set) => ({
       );
       return { recommendations: recommended };
     }),
-
-  // --- BASIC RECIPE ACTIONS ---
-  addRecipe: (newRecipe) =>
-    set((state) => ({
-      recipes: [...state.recipes, newRecipe],
-    })),
 }));
