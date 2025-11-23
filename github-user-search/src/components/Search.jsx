@@ -4,7 +4,7 @@ import { fetchUserData } from "../services/githubService";
 
 export default function Search() {
   const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [users, setUsers] = useState([]); // changed to array to use .map()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -12,13 +12,19 @@ export default function Search() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setUserData(null);
+    setUsers([]);
 
     try {
       const data = await fetchUserData(username);
-      setUserData(data);
+
+      // Ensure data.items exists and is an array
+      if (data.items && data.items.length > 0) {
+        setUsers(data.items);
+      } else {
+        setError("Looks like we cant find the user"); // Task 1 requirement
+      }
     } catch (err) {
-      setError("Looks like we cant find the user"); // <-- Task 1 message
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);
     }
@@ -42,13 +48,27 @@ export default function Search() {
       <div className="mt-4">
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {userData && (
-          <div className="mt-2 border p-2 rounded">
-            <img src={userData.avatar_url} alt={userData.login} className="w-16 h-16 rounded-full" />
-            <p className="font-bold">{userData.login}</p>
-            <a href={userData.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
-              View Profile
-            </a>
+
+        {users.length > 0 && (
+          <div className="mt-2 space-y-2">
+            {/* ======= .map() STARTS HERE ======= */}
+            {users.map((user) => (
+              <div key={user.id} className="border p-2 rounded flex items-center gap-2">
+                <img src={user.avatar_url} alt={user.login} className="w-12 h-12 rounded-full" />
+                <div>
+                  <p className="font-bold">{user.login}</p>
+                  <a
+                    href={user.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500"
+                  >
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            ))}
+            {/* ======= .map() ENDS HERE ======= */}
           </div>
         )}
       </div>
