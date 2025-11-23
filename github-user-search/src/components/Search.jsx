@@ -1,109 +1,57 @@
 // src/components/Search.jsx
 import { useState } from "react";
-import { searchUsers } from "../services/githubService";
+import { fetchUserData } from "../services/githubService";
 
-function Search() {
+export default function Search() {
   const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
-  const [minRepos, setMinRepos] = useState("");
-  const [results, setResults] = useState([]);
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
-  const handleSearch = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setResults([]);
-
-    let query = "";
-
-    if (username) query += `${username} in:login `;
-    if (location) query += `location:${location} `;
-    if (minRepos) query += `repos:>${minRepos} `;
+    setError(null);
+    setUserData(null);
 
     try {
-      const data = await advancedUserSearch(query.trim());
-      setResults(data);
-    } catch {
-      setError("Looks like we can't find any users");
+      const data = await fetchUserData(username);
+      setUserData(data);
+    } catch (err) {
+      setError("Looks like we cant find the user"); // <-- Task 1 message
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Advanced GitHub Search</h2>
-
-      {/* Search Form */}
-      <form
-        onSubmit={handleSearch}
-        className="grid grid-cols-1 gap-3 bg-gray-100 p-4 rounded"
-      >
+    <div className="max-w-md mx-auto mt-10 p-4 border rounded shadow">
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <input
-          className="p-2 rounded border"
           type="text"
-          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter GitHub username"
+          className="flex-1 p-2 border rounded"
         />
-
-        <input
-          className="p-2 rounded border"
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-
-        <input
-          className="p-2 rounded border"
-          type="number"
-          placeholder="Minimum Repos"
-          value={minRepos}
-          onChange={(e) => setMinRepos(e.target.value)}
-        />
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-        >
+        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
           Search
         </button>
       </form>
 
-      {/* Output */}
-
-      {loading && <p className="mt-4 text-gray-600">Loading...</p>}
-      {error && <p className="mt-4 text-red-500">{error}</p>}
-
-      <div className="mt-4 space-y-4">
-        {results.map((user) => (
-          <div
-            key={user.id}
-            className="flex items-center gap-4 p-3 bg-white rounded shadow"
-          >
-            <img
-              src={user.avatar_url}
-              width={60}
-              className="rounded-full"
-            />
-            <div>
-              <h3 className="font-bold">{user.login}</h3>
-              <a
-                href={user.html_url}
-                target="_blank"
-                className="text-blue-600 underline"
-              >
-                View Profile
-              </a>
-            </div>
+      <div className="mt-4">
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+        {userData && (
+          <div className="mt-2 border p-2 rounded">
+            <img src={userData.avatar_url} alt={userData.login} className="w-16 h-16 rounded-full" />
+            <p className="font-bold">{userData.login}</p>
+            <a href={userData.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+              View Profile
+            </a>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
 }
-
-export default Search;
