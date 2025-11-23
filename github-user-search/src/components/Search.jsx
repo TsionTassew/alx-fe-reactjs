@@ -1,6 +1,6 @@
 // src/components/Search.jsx
 import { useState } from "react";
-import { advancedUserSearch } from "../services/githubService";
+import { searchUsers } from "../services/githubService";
 
 function Search() {
   const [username, setUsername] = useState("");
