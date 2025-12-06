@@ -2,6 +2,7 @@
   {
     "id": 1,
     "title": "Spaghetti Bolognese",
+    "summary": "Classic Italian pasta dish with rich meat sauce.",
     "image": "https://via.placeholder.com/400x250.png?text=Spaghetti",
     "ingredients": [
       "Spaghetti",
@@ -20,6 +21,7 @@
   {
     "id": 2,
     "title": "Chicken Stew",
+    "summary": "Hearty stew with chicken, vegetables, and savory broth.",
     "image": "https://via.placeholder.com/400x250.png?text=Chicken+Stew",
     "ingredients": ["Chicken", "Potatoes", "Carrots", "Onions", "Tomato paste"],
     "steps": [
