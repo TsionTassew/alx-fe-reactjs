@@ -36,7 +36,7 @@ const RecipeDetail = () => {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold mb-2">Preparation Steps</h2>
+          <h2 className="text-2xl font-semibold mb-2"><PreparatioN Steps</h2>
           <p className="text-gray-700 whitespace-pre-line">{recipe.steps}</p>
         </div>
       </div>
