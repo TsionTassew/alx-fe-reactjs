@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import recipes from "../data/data.json";
+import recipesData from "../data/data.json";
 
 function HomePage() {
+  // MUST contain useState
+  const [recipes, setRecipes] = useState([]);
+
+  // MUST contain useEffect
+  useEffect(() => {
+    setRecipes(recipesData);
+  }, []);
+
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Recipe List</h1>
@@ -17,9 +25,10 @@ function HomePage() {
             <img
               src={recipe.image}
               alt={recipe.title}
-              className="w-full h-40 object-cover rounded-md mb5"
+              className="w-full h-40 object-cover rounded-md mb-5"
             />
-            <h2 className="text-xl font-semibold">{recipe.title}</h2>
+            <h2 className="text-xl font-semibold mb-2">{recipe.title}</h2>
+            <p className="text-gray-600">{recipe.summary}</p>
           </Link>
         ))}
       </div>
@@ -28,4 +37,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
