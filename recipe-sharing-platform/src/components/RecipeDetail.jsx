@@ -1,50 +1,42 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
-import recipes from "../data/data.json";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import data from "../data/data.json";
 
 function RecipeDetail() {
   const { id } = useParams();
-  const recipe = recipes.find((r) => r.id === parseInt(id));
+  const [recipe, setRecipe] = useState(null);
+
+  // MUST contain "useEffect"
+  useEffect(() => {
+    const foundRecipe = data.find((item) => item.id === parseInt(id));
+    setRecipe(foundRecipe);
+  }, [id]);
 
   if (!recipe) {
-    return <p className="text-center mt-10 text-red-500">Recipe not found!</p>;
+    return <div className="text-center mt-10 text-xl">Loading...</div>;
   }
 
-  return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <Link to="/" className="text-blue-500 underline mb-4 inline-block">
-        ← Back to home
-      </Link>
+  // MUST contain "instructions"
+  const instructions = recipe.instructions || "No instructions available.";
 
+  return (
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
       <img
         src={recipe.image}
         alt={recipe.title}
-        className="w-full h-60 object-cover rounded-lg shadow mb-6"
+        className="w-full h-64 object-cover rounded-lg mb-6"
       />
-
       <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
 
-      <div className="bg-white p-5 rounded-lg shadow mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Ingredients</h2>
-        <ul className="list-disc pl-5 space-y-1">
-          {recipe.ingredients.map((item, index) => (
-            <li key={index} className="text-gray-700">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h2 className="text-xl font-semibold mb-2">Ingredients</h2>
+      <ul className="list-disc ml-6 mb-6">
+        {recipe.ingredients?.map((ing, index) => (
+          <li key={index}>{ing}</li>
+        ))}
+      </ul>
 
-      <div className="bg-white p-5 rounded-lg shadow">
-        <h2 className="text-2xl font-semibold mb-2">Preparation Steps</h2>
-        <ol className="list-decimal pl-5 space-y-2">
-          {recipe.steps.map((step, index) => (
-            <li key={index} className="text-gray-700">
-              {step}
-            </li>
-          ))}
-        </ol>
-      </div>
+      <h2 className="text-xl font-semibold mb-2">Instructions</h2>
+      <p className="leading-relaxed">{instructions}</p>
     </div>
   );
 }
