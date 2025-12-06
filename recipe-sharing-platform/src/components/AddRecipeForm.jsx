@@ -4,6 +4,7 @@ const AddRecipeForm = ({ onAddRecipe }) => {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
+  const [image, setImage] = useState("");
   const [errors, setErrors] = useState({});
 
   const validate = () => {
@@ -25,7 +26,7 @@ const AddRecipeForm = ({ onAddRecipe }) => {
       title,
       ingredients: ingredients.split(",").map((item) => item.trim()),
       steps,
-      image: "https://via.placeholder.com/300x200",
+      image: image || "https://via.placeholder.com/300x200",
     };
 
     onAddRecipe(newRecipe);
@@ -34,6 +35,7 @@ const AddRecipeForm = ({ onAddRecipe }) => {
     setTitle("");
     setIngredients("");
     setSteps("");
+    setImage("");
     setErrors({});
   };
 
@@ -81,6 +83,17 @@ const AddRecipeForm = ({ onAddRecipe }) => {
             placeholder="Describe the preparation steps"
           />
           {errors.steps && <p className="text-red-500 text-sm mt-1">{errors.steps}</p>}
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Image URL (optional)</label>
+          <input
+            type="text"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 border-gray-300"
+            placeholder="https://example.com/image.jpg"
+          />
         </div>
 
         <button
