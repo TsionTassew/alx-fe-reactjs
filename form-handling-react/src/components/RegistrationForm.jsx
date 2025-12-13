@@ -1,27 +1,23 @@
 import React, { useState } from "react";
 
 /**
- * Controlled components implementation.
- * Fields: username, email, password
- * Basic validation: non-empty fields
- * Simulated POST to mock API (jsonplaceholder)
+ * Controlled components implementation (updated).
+ * Uses separate state variables for username, email, password
+ * and ensures inputs include value={username}, value={email}, value={password}.
  */
+
 export default function RegistrationForm() {
-  const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ loading: false, message: null, error: null });
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: null }));
-  }
-
   function validate() {
     const errs = {};
-    if (!form.username.trim()) errs.username = "Username is required";
-    if (!form.email.trim()) errs.email = "Email is required";
-    if (!form.password.trim()) errs.password = "Password is required";
+    if (!username.trim()) errs.username = "Username is required";
+    if (!email.trim()) errs.email = "Email is required";
+    if (!password.trim()) errs.password = "Password is required";
     return errs;
   }
 
@@ -41,14 +37,18 @@ export default function RegistrationForm() {
       const res = await fetch("https://jsonplaceholder.typicode.com/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ username, email, password }),
       });
 
       if (!res.ok) throw new Error("Network response was not ok");
 
       const data = await res.json();
       setStatus({ loading: false, message: `Registered (mock) with id ${data.id || "N/A"}`, error: null });
-      setForm({ username: "", email: "", password: "" });
+      // clear form
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setErrors({});
     } catch (err) {
       setStatus({ loading: false, message: null, error: err.message || "Submission failed" });
     }
@@ -60,19 +60,45 @@ export default function RegistrationForm() {
       <form onSubmit={handleSubmit} noValidate>
         <div className="form-row">
           <label htmlFor="username">Username</label>
-          <input id="username" name="username" value={form.username} onChange={handleChange} />
+          <input
+            id="username"
+            name="username"
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setErrors((prev) => ({ ...prev, username: null }));
+            }}
+          />
           {errors.username && <div className="error">{errors.username}</div>}
         </div>
 
         <div className="form-row">
           <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" value={form.email} onChange={handleChange} />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrors((prev) => ({ ...prev, email: null }));
+            }}
+          />
           {errors.email && <div className="error">{errors.email}</div>}
         </div>
 
         <div className="form-row">
           <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" value={form.password} onChange={handleChange} />
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrors((prev) => ({ ...prev, password: null }));
+            }}
+          />
           {errors.password && <div className="error">{errors.password}</div>}
         </div>
 
