@@ -4,6 +4,7 @@ import React, { useState } from "react";
  * Controlled components implementation (updated).
  * Uses separate state variables for username, email, password
  * and ensures inputs include value={username}, value={email}, value={password}.
+ * Validation now includes explicit `if (!email)` and `if (!password)` checks.
  */
 
 export default function RegistrationForm() {
@@ -15,9 +16,22 @@ export default function RegistrationForm() {
 
   function validate() {
     const errs = {};
-    if (!username.trim()) errs.username = "Username is required";
-    if (!email.trim()) errs.email = "Email is required";
-    if (!password.trim()) errs.password = "Password is required";
+    if (!username || !username.trim()) errs.username = "Username is required";
+
+    // explicit presence check as requested
+    if (!email) {
+      errs.email = "Email is required";
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      errs.email = "Invalid email address";
+    }
+
+    // explicit presence check as requested
+    if (!password) {
+      errs.password = "Password is required";
+    } else if (password.length < 6) {
+      errs.password = "Password must be at least 6 characters";
+    }
+
     return errs;
   }
 
