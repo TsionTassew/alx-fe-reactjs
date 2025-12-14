@@ -2,7 +2,6 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import UserProfile from "./components/UserProfile";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,10 +25,6 @@ function App() {
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
-      <div className="text-3xl font-bold text-blue-600">
-  Tailwind is working!
-</div>
-
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
