@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import TodoList from "../components/TodoList";
 import userEvent from "@testing-library/user-event";
+import userEvent from "@testing-library/user-event";
 
 test("renders initial todos", () => {
   render(<TodoList />);
