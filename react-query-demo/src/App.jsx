@@ -1,11 +1,14 @@
-import PostsComponent from "./components/PostsComponent";
+// src/App.jsx
+import { QueryClient, QueryClientProvider } from "react-query"; // must be exact
+import PostsComponent from "./components/PostsComponent"; // must be exact
+
+const queryClient = new QueryClient(); // must be exact
 
 function App() {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>React Query Demo</h1>
+    <QueryClientProvider client={queryClient}> {/* must be exact */}
       <PostsComponent />
-    </div>
+    </QueryClientProvider>
   );
 }
 
