@@ -1,18 +1,20 @@
 // src/components/PostsComponent.jsx
-import { useQuery } from "react-query"; // must contain useQuery
+import { useQuery } from "react-query";
 import React from "react";
 
-const fetchPosts = async () => { // must contain fetchPosts
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts"); // must contain URL
-  if (!response.ok) {
-    throw new Error("Failed to fetch posts");
-  }
-  return response.json();
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!res.ok) throw new Error("Failed to fetch posts");
+  return res.json();
 };
 
 function PostsComponent() {
-  const { data, isLoading, isError, error, refetch } = useQuery("posts", fetchPosts); 
-  // must contain: data, isLoading, isError, error, useQuery, fetchPosts
+  const { data, isLoading, isError, error, refetch } = useQuery("posts", fetchPosts, {
+    cacheTime: 1000 * 60 * 10,           // 10 minutes
+    staleTime: 1000 * 60 * 5,            // 5 minutes
+    refetchOnWindowFocus: false,         // disable refetch on focus
+    keepPreviousData: true,              // keep old data when refetching
+  });
 
   if (isLoading) return <p>Loading posts...</p>;
   if (isError) return <p>Error: {error.message}</p>;
