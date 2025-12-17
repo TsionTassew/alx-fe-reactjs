@@ -1,0 +1,180 @@
+:root {
+  --font-size: 16px;
+  --animation-speed: 1s;
+  --background-color: aliceblue;
+  --background-light: #f0f8ff;
+  --shadow-color: rgb(6, 3, 3);
+  --primary-color: rgb(156, 4, 4);
+  /* ... other variables ... */
+  --text-color: black;
+  /* <--- You were missing this semicolon! */
+  --text-light: gray;
+  /* Now this line will actually work */
+
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  font-size: var(--font-size);
+  font-family: "Roboto", sans-serif;
+
+
+}
+
+.navbar {
+  height: 70px;
+  background-color: var(--background-color);
+  box-shadow: 0 3px 6px var(--shadow-color);
+
+  color: var(--primary-color);
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  .logo {
+    font-size: 1.5em;
+    font-weight: bolder;
+    color: rgb(156, 4, 4);
+    text-decoration: none;
+  }
+}
+
+.nav-links {
+  a {
+    margin-left: 2em;
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    padding: 5px 0;
+
+
+    /* Gives the hover line some breathing room */
+    &::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 3px;
+      background-color: rgb(156, 4, 4);
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      transform: scaleX(0);
+      transition: transform calc(var(--animation-speed) *0.2) ease-in-out;
+
+    }
+
+    &:hover::before {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    &.active {
+      color: rgb(156, 4, 4);
+      font-weight: bold;
+
+
+    }
+  }
+}
+
+.sidebar-btn {
+  height: 28px;
+  width: 29px;
+  display: none;
+  position: relative;
+
+  .bar {
+    height: 6px;
+    width: 100%;
+    background-color: var(--primary-color);
+    position: absolute;
+    border-radius: 4px;
+
+    &:nth-child(1) {
+      top: 0;
+    }
+
+    &:nth-child(2) {
+      top: 50%;
+      transform-origin: right;
+      transform: scalex(.8) translateY(-50%);
+
+    }
+
+    &:nth-child(3) {
+      top: 100%;
+      transform-origin: right;
+      transform: scalex(1.2) translateY(-100%);
+
+    }
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: var(--background-light);
+  box-shadow: 0 0 0 1000px rgba(155, 140, 140, 0.2),
+    0px 0 5px var(--shadow-color);
+    
+
+}
+
+.sidebar-link {
+  display: block;
+  padding: .5em 1em;
+  border-left: .3em solid transparent;
+  margin-bottom: 1em;
+  color: rgb(97, 7, 7);
+  font-weight: bold;
+  font-size: 1.1em;
+  text-decoration: none;
+  
+
+  &.active {
+    border-left-color: var(--primary-color);
+  }
+
+  &:hover {
+    border-left-color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  svg {
+    width: 1.2em;
+    margin-right: .5em;
+
+  }
+  }
+
+  .container {
+    padding-inline: 10vw;
+
+  }
+
+  @media screen and (max-width:768px) {
+    .navbar {
+      .nav-links {
+        display: none;
+      }
+
+      .sidebar-btn {
+        display: block;
+      }
+    }
+
+  }
