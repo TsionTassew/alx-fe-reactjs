@@ -24,6 +24,7 @@ body {
   font-size: var(--font-size);
   font-family: "Roboto", sans-serif;
   padding-top: 55px;
+  
 
 }
 
@@ -193,8 +194,44 @@ box-shadow: 0 5px 10px var(--shadow-color);
 padding: 1em;
 border-radius: 5px;
 border-left: .5em solid var(--primary-color);
-background-color: var(--background-color);
+background-color: var(--background-light);
 margin-top: 1em;
+display: flex;
+gap: 1em;
+
+.option{
+  height: 3.0em;
+  width: 3.0em;
+  box-shadow: 0 3px 6px var(--primary-color);
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center; 
+cursor: pointer;
+&.light{
+  background-color: #f0f8ff;
+
+}
+&.dark{
+  background-color: black;
+}
+.check{
+  height: 2.5em;
+  width: 2.5em;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5ps var(--shadow-color);
+
+  svg{
+    height: 1.5em;
+    width: 1.5em;
+
+  }
+}
+}
 }
 .d-block .h2{
   font-size: 1.5em;
