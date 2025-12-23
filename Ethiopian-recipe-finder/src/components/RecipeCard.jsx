@@ -1,31 +1,16 @@
-import React from 'react';
+import Ayele from "./Ayele"
+export default function RecipeCard({ recipe }) {
+    return (
+        <div className="recipe-card">
+            <Ayele imgSrc={recipe.image} pt="65%"/>
+            <div className="recipe-card-info">
+               <p className="recipe-title"> {recipe.title} </p>
+                <p className="recipe-note"> Rediscover the rich spices and traditional tastes of Habesha.</p>
+                <a className="view-btn" href="#!">VIEW RECIPE </a>
+            </div>
 
-const RecipeCard = ({ recipe }) => {
-  if (!recipe) return null;
 
-  const { idMeal, strMealThumb, strCategory, strMeal } = recipe;
+        </div>
 
-  return (
-    <div className="card">
-      <img
-        src={strMealThumb}
-        alt={strMeal}
-        className="card-image"
-      />
-
-      <div className="card-body">
-        <span className="category">{strCategory}</span>
-        <h3>{strMeal}</h3>
-        <a
-          href={`https://www.themealdb.com/meal/${idMeal}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Ingredients
-        </a>
-      </div>
-    </div>
-  );
-};
-
-export default RecipeCard;
+    )
+}
